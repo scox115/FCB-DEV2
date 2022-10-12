@@ -1,7 +1,61 @@
-<h1>Counter</h1>
+<h3>User Input</h3>
 
-<p>This is a simple example of an Angular component.</p>
+<div *ngIf="response">
+  <p> {{ response }} </p>
+  <button class="button" type="button" (click)="okButton()">Ok</button>
+</div>
+<div *ngIf="working && !response">Working...</div>
+<div *ngIf="!working && !response">
+  <form #inputForm="ngForm" (ngSubmit)="onSubmit()">
 
-<p aria-live="polite">Current count: <strong>{{ currentCount }}</strong></p>
+    <div class="mb">
+      <label class="mr" for="firstName">
+        First Name
+      </label>
+      <input id="firstName" type="text" name="firstName" [(ngModel)]="user.firstName" required minlength="1" #firstName="ngModel">
+    </div>
+    <div *ngIf="!firstName?.valid && (firstName?.dirty || firstName?.touched)" class="error">
+      <div *ngIf="firstName.errors?.required">
+        First Name is required
+      </div>
+      <div *ngIf="firstName.errors?.minlength">
+        First Name Minimum Length is {{firstName.errors?.minlength?.requiredLength}}
+      </div>
+    </div>
 
-<button class="btn btn-primary" (click)="incrementCounter()">Increment</button>
+
+    <div class="mb">
+      <label class="mr" for="lastName">
+        Last Name
+      </label>
+      <input id="lastName" type="text" name="lastName" [(ngModel)]="user.lastName" required minlength="1" #lastName="ngModel">
+    </div>
+    <div *ngIf="!lastName?.valid && (lastName?.dirty || lastName?.touched)" class="error">
+      <div *ngIf="lastName.errors?.required">
+        Last Name is required
+      </div>
+      <div *ngIf="lastName.errors?.minlength">
+        Last Name Minimum Length is {{lastName.errors?.minlength?.requiredLength}}
+      </div>
+    </div>
+
+
+    <div class="mb">
+      <label class="mr" for="zipCode">
+        Zip Code
+      </label>
+      <input id="zipCode" type="text" name="zipCode" [(ngModel)]="user.zipCode" required minlength="5" #zipCode="ngModel">
+    </div>
+    <div *ngIf="!zipCode?.valid && (zipCode?.dirty || zipCode?.touched)" class="error">
+      <div *ngIf="zipCode.errors?.required">
+        Zip Code is required
+      </div>
+      <div *ngIf="zipCode.errors?.minlength">
+        Zip Code Minimum Length is {{zipCode.errors?.minlength?.requiredLength}}
+      </div>
+    </div>
+
+    <button class="button" type="submit" [disabled]="!inputForm.valid">Submit</button>
+
+  </form>
+</div>
